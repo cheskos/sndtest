@@ -1,0 +1,108 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    // Properties file
+    def versionPropsFile = file('version.properties')
+    Properties versionProps = new Properties()
+    if (versionPropsFile.exists())
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+    def value = 0
+
+    def runTasks = gradle.startParameter.taskNames
+    println "Task names: $runTasks"
+    if ('assemble' in runTasks || 'assembleRelease' in runTasks || 'aR' in runTasks) {
+        value = 1
+    }
+
+    def versionMajor = 0   // Increment this on a major release
+    def versionMinor = 1  // Increment this on a minor release
+    def versionPatch = versionProps['VERSION_PATCH'].toInteger() + value
+    def versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1
+    def versionNumber = (versionMajor * 1000000) + (versionMinor * 10000) + (versionPatch * 100)
+
+    /*  Setting values in file */
+    versionProps.setProperty('VERSION_PATCH', versionPatch.toString())
+    versionProps.setProperty('VERSION_BUILD', versionBuild.toString())
+    versionProps.setProperty('VERSION_NUMBER', versionNumber.toString())
+
+    versionProps.store(versionPropsFile.newWriter(), null)
+
+    defaultConfig {
+        applicationId "com.evite.giphytest"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode versionNumber
+        versionName "${versionMajor}.${versionMinor}.${versionPatch} (${versionBuild})"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def fileName = "GiphyTest"
+            output.outputFileName = "${fileName}-${versionMajor}.${versionMinor}.${versionPatch}-${outputFile.name}"
+        }
+
+        variant.assemble.doLast { assemble ->
+            copy {
+                from variant.outputs*.outputFile
+                into "$rootProject.rootDir.canonicalPath/apks"
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            useProguard false
+            applicationIdSuffix ".debug"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    /*  Kotlin  */
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    /*  Android's Design, Support, etc */
+    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:preference-v14:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:design:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+
+    /*  Dagger  */
+    implementation "com.google.dagger:dagger-android:$rootProject.daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+
+    /*  Square  */
+    implementation "com.squareup.picasso:picasso:2.5.2"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.8.1"
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+
+    testImplementation 'junit:junit:4.12'
+
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}

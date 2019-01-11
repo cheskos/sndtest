@@ -1,4 +1,4 @@
-package com.evite.giphytest
+package com.evite.giphytest.base
 
 import android.app.Activity
 import android.os.Bundle

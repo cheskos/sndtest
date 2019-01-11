@@ -14,7 +14,6 @@ import javax.inject.Singleton
     AndroidInjectionModule::class
     ,AppModule::class
     ,ActivitiesModule::class
-    ,MainModule::class
     ,ApiServiceModule::class
     ,ReposModule::class
 ])

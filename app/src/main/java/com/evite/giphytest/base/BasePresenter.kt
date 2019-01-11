@@ -9,23 +9,30 @@ abstract class BasePresenter : LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun onCreate() {
-        Log.i("", "Creating")
+        Log.i("BasePresenter", "Creating")
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun onPause() {
-        Log.i("", "Pausing")
+        Log.i("BasePresenter", "Pausing")
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onStart() {
-        Log.i("", "Starting")
+        Log.i("BasePresenter", "Starting")
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onStop() {
-        Log.i("", "Stopping")
-        // ToDo: watch this!!
+        Log.i("BasePresenter", "Stopping")
 //        model.unsubscribe()
+    }
+
+    fun attachLifecycle(lifecycle: Lifecycle) {
+        lifecycle.addObserver(this)
+    }
+
+    fun detachLifecycle(lifecycle: Lifecycle) {
+        lifecycle.removeObserver(this)
     }
 }

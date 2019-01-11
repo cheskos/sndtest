@@ -9,7 +9,7 @@ import com.evite.giphytest.model.SearchResponseData
 import javax.inject.Inject
 
 interface Remote {
-    fun search(keyword: String)
+    fun search(keyword: String, offset: Int, limit: Int)
 }
 
 class GifsRepo @Inject internal constructor(
@@ -18,21 +18,8 @@ class GifsRepo @Inject internal constructor(
 
     private val apiKey = Constants.API_KEY
 
-//    companion object {
-//        private var INSTANCE: GifsRepo? = null
-//
-//        @JvmStatic fun instance(gifService: GifsService): GifsRepo {
-//            if (INSTANCE == null) {
-//                synchronized(GifsRepo::class.java) {
-//                    INSTANCE = GifsRepo(gifService)
-//                }
-//            }
-//            return INSTANCE!!
-//        }
-//    }
-
-    override fun search(keyword: String) {
-        gifService.search(keyword, apiKey)
+    override fun search(keyword: String, offset: Int, limit: Int) {
+        gifService.search(keyword, offset, limit, apiKey)
             .enqueue(BaseApiCallback<SearchResponseData>({ success ->
             Log.d("TAG", "YAY")
         }, { failure ->

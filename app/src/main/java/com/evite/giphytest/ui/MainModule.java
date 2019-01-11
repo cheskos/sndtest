@@ -16,7 +16,11 @@ public abstract class MainModule {
     @Binds @IntoMap @FragmentKey(SearchGifsFragment.class)
     abstract AndroidInjector.Factory<? extends Fragment> bindSearchFragment(MainSubComponent.Builder builder);
 
-    @Provides @NotNull static MainPresenter provideMainPresenter(GifsRepo repo /*, MainView view */) {
-        return new MainPresenter(repo);
+    @Provides static MainView provideView(MainActivity activity) {
+        return activity;
+    }
+
+    @Provides @NotNull static MainPresenter provideMainPresenter(GifsRepo repo, MainView view) {
+        return new MainPresenter(repo, view);
     }
 }

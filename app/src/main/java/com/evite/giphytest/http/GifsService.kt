@@ -9,5 +9,7 @@ interface GifsService {
 
     @GET("gifs/search")
     fun search(@Query("q") keyword: String,
+               @Query("offset") offset: Int,
+               @Query("limit") limit: Int,
                @Query("api_key") apiKey: String) : Call<SearchResponseData>
 }

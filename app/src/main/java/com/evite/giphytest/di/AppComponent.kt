@@ -15,6 +15,8 @@ import javax.inject.Singleton
     ,AppModule::class
     ,ActivitiesModule::class
     ,MainModule::class
+    ,ApiServiceModule::class
+    ,ReposModule::class
 ])
 interface AppComponent {
     fun app(): GiphyTestApp

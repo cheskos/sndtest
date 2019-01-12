@@ -3,12 +3,12 @@ package com.evite.giphytest.model
 import com.google.gson.annotations.SerializedName
 
 data class SearchResponseData(
-    @SerializedName("type") val type: String,
-    @SerializedName("fixed_height") val images: Images
+    @SerializedName("data") val data: List<GifData>,
+    @SerializedName("pagination") val pagination: Pagination
 ) {
-    data class Images(
-        @SerializedName("url") val url: String,
-        @SerializedName("width") val width: String,
-        @SerializedName("webp") val webpUrl: String
+    data class Pagination(
+        @SerializedName("total_count") val total: Int,
+        @SerializedName("count") val count: Int,
+        @SerializedName("offset") val offset: Int
     )
 }

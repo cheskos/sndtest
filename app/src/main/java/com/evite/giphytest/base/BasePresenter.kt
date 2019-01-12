@@ -1,31 +1,28 @@
 package com.evite.giphytest.base
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
+import android.arch.lifecycle.*
 import android.util.Log
 
-abstract class BasePresenter : LifecycleObserver {
+open class BasePresenter : LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun onCreate() {
+    open fun onCreate() {
         Log.i("BasePresenter", "Creating")
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun onPause() {
+    open fun onPause() {
         Log.i("BasePresenter", "Pausing")
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart() {
+    open fun onStart() {
         Log.i("BasePresenter", "Starting")
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop() {
+    open fun onStop() {
         Log.i("BasePresenter", "Stopping")
-//        model.unsubscribe()
     }
 
     fun attachLifecycle(lifecycle: Lifecycle) {

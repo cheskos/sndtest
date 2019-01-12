@@ -13,14 +13,14 @@ import org.jetbrains.annotations.NotNull;
 @Module(subcomponents = MainSubComponent.class)
 public abstract class MainModule {
 
-    @Binds @IntoMap @FragmentKey(SearchGifsFragment.class)
+    @Binds @IntoMap @FragmentKey(GifsResultFragment.class)
     abstract AndroidInjector.Factory<? extends Fragment> bindSearchFragment(MainSubComponent.Builder builder);
 
-    @Provides static MainView provideView(MainActivity activity) {
+    @Provides static MainContract.View provideView(MainActivity activity) {
         return activity;
     }
 
-    @Provides @NotNull static MainPresenter provideMainPresenter(GifsRepo repo, MainView view) {
+    @Provides @NotNull static MainPresenter provideMainPresenter(GifsRepo repo, MainContract.View view) {
         return new MainPresenter(repo, view);
     }
 }

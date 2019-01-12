@@ -1,6 +1,5 @@
 package com.evite.giphytest.repositories
 
-import android.util.Log
 import com.evite.giphytest.Constants
 import com.evite.giphytest.base.BaseApiCallback
 import com.evite.giphytest.base.BaseRepo
@@ -21,9 +20,14 @@ class GifsRepo @Inject internal constructor(
     override fun search(keyword: String, offset: Int, limit: Int) {
         gifService.search(keyword, offset, limit, apiKey)
             .enqueue(BaseApiCallback<SearchResponseData>({ success ->
-            Log.d("TAG", "YAY")
-        }, { failure ->
-            Log.e("TAG", "NAY :(")
-        }))
+
+                gifResults.postValue(success)
+
+            }, { failure ->
+
+                failure.printStackTrace()
+                gifResults.postValue(null)
+
+            }))
     }
 }

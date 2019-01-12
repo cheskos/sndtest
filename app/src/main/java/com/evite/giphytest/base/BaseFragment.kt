@@ -11,6 +11,7 @@ import dagger.android.AndroidInjection
 abstract class BaseFragment : Fragment() {
 
     abstract fun getLayout(): Int
+    abstract fun setupViews(savedInstanceState: Bundle?)
 
     override fun onAttach(context: Context) {
         AndroidInjection.inject(this)
@@ -21,4 +22,8 @@ abstract class BaseFragment : Fragment() {
         return inflater.inflate(getLayout(), container, false)
     }
 
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupViews(savedInstanceState)
+    }
 }

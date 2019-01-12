@@ -4,8 +4,8 @@ import dagger.Subcomponent;
 import dagger.android.AndroidInjector;
 
 @Subcomponent
-public interface MainSubComponent extends AndroidInjector<SearchGifsFragment> {
+public interface MainSubComponent extends AndroidInjector<GifsResultFragment> {
 
     @Subcomponent.Builder
-    abstract class Builder extends AndroidInjector.Builder<SearchGifsFragment> {}
+    abstract class Builder extends AndroidInjector.Builder<GifsResultFragment> {}
 }

@@ -9,12 +9,12 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.evite.giphytest.R
 import com.evite.giphytest.model.GifData
-import com.evite.giphytest.utils.DrawableUtils
+import com.evite.giphytest.ui.search.MainContract
 import kotlinx.android.synthetic.main.item_gif_list.view.*
 
 class GifsListAdapter(
     val list: ArrayList<GifData>,
-    val listener: MainContract.View
+    private val listener: MainContract.View?
 ) : RecyclerView.Adapter<GifsListAdapter.GifViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GifViewHolder {
@@ -30,7 +30,7 @@ class GifsListAdapter(
             setOnLongClickListener {
                 it.isSelected = !isSelected
                 it.setBackgroundColor(if (it.isSelected) ContextCompat.getColor(it.context, R.color.colorAccent) else ContextCompat.getColor(it.context, android.R.color.transparent))
-                listener.selected(isSelected, list[position])
+                listener?.selected(isSelected, list[position])
                 true
             }
         }

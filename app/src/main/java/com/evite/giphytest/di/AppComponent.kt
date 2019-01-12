@@ -3,7 +3,6 @@ package com.evite.giphytest.di
 import android.content.Context
 import com.evite.giphytest.AppExecutors
 import com.evite.giphytest.GiphyTestApp
-import com.evite.giphytest.ui.MainModule
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton

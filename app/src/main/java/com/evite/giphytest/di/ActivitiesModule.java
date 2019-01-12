@@ -1,7 +1,7 @@
 package com.evite.giphytest.di;
 
-import com.evite.giphytest.ui.MainActivity;
-import com.evite.giphytest.ui.MainModule;
+import com.evite.giphytest.ui.search.MainActivity;
+import com.evite.giphytest.ui.search.MainModule;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 

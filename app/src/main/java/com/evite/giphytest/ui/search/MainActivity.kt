@@ -1,7 +1,8 @@
-package com.evite.giphytest.ui
+package com.evite.giphytest.ui.search
 
 import android.animation.Animator
 import android.app.Fragment
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -11,6 +12,9 @@ import com.evite.giphytest.base.BaseActivity
 import com.evite.giphytest.base.BasePresenter
 import com.evite.giphytest.model.GifData
 import com.evite.giphytest.onChange
+import com.evite.giphytest.ui.GifsListAdapter
+import com.evite.giphytest.ui.result.DisplayResultActivity
+import com.evite.giphytest.ui.search.GifsResultFragment.Companion.PARAM_LIST
 import com.evite.giphytest.utils.Utils
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -23,9 +27,7 @@ class MainActivity : BaseActivity(), MainContract.View, HasFragmentInjector {
     @Inject internal lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
     @Inject lateinit var presenter: MainPresenter
     private val searchAdapter = GifsListAdapter(arrayListOf(), this)
-
     private val selectedGifs = arrayListOf<GifData>()
-
     private val columnCount = 2
 
     override fun fragmentInjector(): AndroidInjector<Fragment> = dispatchingAndroidInjector
@@ -54,6 +56,13 @@ class MainActivity : BaseActivity(), MainContract.View, HasFragmentInjector {
                 showProgressBar(true)
             } else {
                 searchAdapter.clear()
+            }
+        }
+
+        fab.setOnClickListener {
+            Intent(this, DisplayResultActivity::class.java).apply {
+                putParcelableArrayListExtra(PARAM_LIST, selectedGifs)
+                startActivity(this)
             }
         }
     }

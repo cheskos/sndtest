@@ -1,4 +1,4 @@
-package com.evite.giphytest.ui
+package com.evite.giphytest.ui.search
 
 import android.arch.lifecycle.Observer
 import com.evite.giphytest.base.BasePresenter

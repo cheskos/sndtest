@@ -1,4 +1,4 @@
-package com.evite.giphytest.ui
+package com.evite.giphytest.ui.search
 
 import com.evite.giphytest.base.BaseView
 import com.evite.giphytest.model.GifData

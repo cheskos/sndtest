@@ -1,4 +1,4 @@
-package com.evite.giphytest.ui;
+package com.evite.giphytest.ui.search;
 
 import android.app.Fragment;
 import com.evite.giphytest.repositories.GifsRepo;

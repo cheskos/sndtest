@@ -1,4 +1,4 @@
-package com.evite.giphytest.ui;
+package com.evite.giphytest.ui.search;
 
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;

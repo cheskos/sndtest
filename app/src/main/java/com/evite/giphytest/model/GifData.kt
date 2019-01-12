@@ -16,7 +16,7 @@ data class GifData(
         data class Properties(
             @SerializedName("url") val url: String,
             @SerializedName("width") val width: String,
-            @SerializedName("webp") val webpUrl: String
+            @SerializedName("webp") val webpUrl: String?
         ) : Parcelable {
 
             companion object {

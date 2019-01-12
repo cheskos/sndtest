@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:id="@+id/coordinator"
-    tools:context="com.evite.giphytest.ui.search.MainActivity">
+    tools:context="com.snd.test.ui.search.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

@@ -1,13 +1,15 @@
 package com.snd.test.ui.search
 
 import com.snd.test.base.BaseView
+import com.snd.test.model.CommentResponseData
 import com.snd.test.model.PostResponseData
 
 interface MainContract {
 
     interface View : BaseView {
-        fun displayResult(result: List<PostResponseData.Post>)
-        fun selected(isSelected: Boolean, item: PostResponseData.Post)
+        fun displayPosts(result: List<PostResponseData.Post>)
+        fun selected(item: PostResponseData.Post)
+        fun onCommentsFetched(comments: List<CommentResponseData.Comment>)
     }
 
     interface Presenter {

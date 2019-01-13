@@ -2,33 +2,47 @@ package com.snd.test.ui.search
 
 import android.arch.lifecycle.Observer
 import com.snd.test.base.BasePresenter
-import com.snd.test.model.AlbumResponseData
+import com.snd.test.model.CommentResponseData
 import com.snd.test.model.PostResponseData
-import com.snd.test.repositories.GifsRepo
+import com.snd.test.repositories.MainRepository
 import javax.inject.Inject
 
 class MainPresenter @Inject internal constructor(
-    private val gifsRepo: GifsRepo,
+    private val mainRepository: MainRepository,
     private val mainView: MainContract.View
 ): BasePresenter(), MainContract.Presenter {
 
-    private val resultObserver = Observer<PostResponseData> { response ->
+    private val resultObserver = Observer<List<PostResponseData.Post>> { response ->
         if (response == null) {
             mainView.showMessage("Error in response")
         } else {
-            mainView.displayResult(response.list)
+            mainView.displayPosts(response)
+        }
+    }
+
+    private val commentsObserver = Observer<List<CommentResponseData.Comment>> { response ->
+        if (response == null) {
+            mainView.showMessage("Could not get comments")
+        } else {
+            mainView.onCommentsFetched(response)
         }
     }
 
     override fun onStart() {
-        gifsRepo.apiResult.observe(mainView.lifecycleOwner(), resultObserver)
+        mainRepository.postsLiveData.observe(mainView.lifecycleOwner(), resultObserver)
+        mainRepository.commentsLiveData.observe(mainView.lifecycleOwner(), commentsObserver)
     }
 
-    override fun search(word: String, offset: Int, limit: Int) {
-        gifsRepo.search(word, offset, limit)
+    override fun getPosts() {
+        mainRepository.getAllPosts()
+    }
+
+    override fun getCommentsForPost(id: Int) {
+        mainRepository.getCommentsFor(id)
     }
 
     override fun onStop() {
-        gifsRepo.apiResult.removeObserver(resultObserver)
+        mainRepository.postsLiveData.removeObserver(resultObserver)
+        mainRepository.commentsLiveData.removeObserver(commentsObserver)
     }
 }

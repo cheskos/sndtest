@@ -4,17 +4,18 @@ import android.animation.Animator
 import android.app.Fragment
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.snd.test.R
 import com.snd.test.base.BaseActivity
 import com.snd.test.base.BasePresenter
+import com.snd.test.model.CommentResponseData
 import com.snd.test.model.PostResponseData
-import com.snd.test.onChange
-import com.snd.test.ui.GifsListAdapter
+import com.snd.test.ui.PostsListAdapter
 import com.snd.test.ui.result.DisplayResultActivity
-import com.snd.test.ui.result.GifsResultFragment.Companion.PARAM_LIST
+import com.snd.test.ui.result.CommentsFragment.Companion.PARAM_LIST
 import com.snd.test.utils.Utils
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -26,8 +27,7 @@ class MainActivity : BaseActivity(), MainContract.View, HasFragmentInjector {
 
     @Inject internal lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
     @Inject lateinit var presenter: MainPresenter
-    private val searchAdapter = GifsListAdapter(arrayListOf(), this)
-    private val selectedItems = arrayListOf<PostResponseData.Post>()
+    private val searchAdapter = PostsListAdapter(arrayListOf(), this)
     private val columnCount = 2
 
     override fun fragmentInjector(): AndroidInjector<Fragment> = dispatchingAndroidInjector
@@ -36,7 +36,7 @@ class MainActivity : BaseActivity(), MainContract.View, HasFragmentInjector {
 
     override fun getPresenter(): BasePresenter = presenter
 
-    override fun displayResult(result: List<PostResponseData.Post>) {
+    override fun displayPosts(result: List<PostResponseData.Post>) {
         searchAdapter.append(result)
         showProgressBar(false)
         Utils.hideKeyboard(this)
@@ -48,32 +48,31 @@ class MainActivity : BaseActivity(), MainContract.View, HasFragmentInjector {
         with (gifList as RecyclerView) {
             adapter = searchAdapter
             layoutManager = GridLayoutManager(this@MainActivity, columnCount)
+            addItemDecoration(DividerItemDecoration(this@MainActivity, DividerItemDecoration.VERTICAL))
+            addItemDecoration(DividerItemDecoration(this@MainActivity, DividerItemDecoration.HORIZONTAL))
         }
 
-        searchEditText.onChange { text ->
-            if (text.isNotEmpty() and (text.length > 3)) {
-                presenter.search(text, searchAdapter.itemCount, 50)
-                showProgressBar(true)
-            } else {
-                searchAdapter.clear()
-            }
-        }
-
-        fab.setOnClickListener {
-            Intent(this, DisplayResultActivity::class.java).apply {
-                putParcelableArrayListExtra(PARAM_LIST, selectedItems)
-                startActivity(this)
-            }
-        }
+        presenter.getPosts()
     }
 
-    override fun selected(isSelected: Boolean, item: PostResponseData.Post) {
-        if (isSelected) {
-            selectedItems.add(item)
-        } else {
-            selectedItems.remove(item)
+//    override fun onStart() {
+//        super.onStart()
+//        presenter.getPosts()
+//        showProgressBar(true)
+//    }
+
+    override fun selected(item: PostResponseData.Post) {
+        showProgressBar(true)
+        showMessage("Please wait")
+        presenter.getCommentsForPost(item.id)
+    }
+
+    override fun onCommentsFetched(comments: List<CommentResponseData.Comment>) {
+        showProgressBar(false)
+        Intent(this, DisplayResultActivity::class.java).apply {
+            putParcelableArrayListExtra(PARAM_LIST, ArrayList<CommentResponseData.Comment>(comments))
+            startActivity(this)
         }
-        showMessage(String.format("Count: %s", selectedItems.size))
     }
 
     override fun showProgressBar(show: Boolean) {

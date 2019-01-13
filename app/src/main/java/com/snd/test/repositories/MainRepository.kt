@@ -38,7 +38,6 @@ class MainRepository @Inject internal constructor(
 
                 failure.printStackTrace()
                 commentsLiveData.postValue(null)
-
             }))
     }
 }

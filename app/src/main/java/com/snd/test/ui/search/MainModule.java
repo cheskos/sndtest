@@ -2,7 +2,7 @@ package com.snd.test.ui.search;
 
 import android.app.Fragment;
 import com.snd.test.repositories.MainRepository;
-import com.snd.test.ui.result.GifsResultFragment;
+import com.snd.test.ui.result.CommentsFragment;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 @Module(subcomponents = MainSubComponent.class)
 public abstract class MainModule {
 
-    @Binds @IntoMap @FragmentKey(GifsResultFragment.class)
+    @Binds @IntoMap @FragmentKey(CommentsFragment.class)
     abstract AndroidInjector.Factory<? extends Fragment> bindSearchFragment(MainSubComponent.Builder builder);
 
     @Provides static MainContract.View provideView(MainActivity activity) {

@@ -2,7 +2,8 @@ package com.snd.test.ui.search
 
 import android.arch.lifecycle.Observer
 import com.snd.test.base.BasePresenter
-import com.snd.test.model.SearchResponseData
+import com.snd.test.model.AlbumResponseData
+import com.snd.test.model.PostResponseData
 import com.snd.test.repositories.GifsRepo
 import javax.inject.Inject
 
@@ -11,16 +12,16 @@ class MainPresenter @Inject internal constructor(
     private val mainView: MainContract.View
 ): BasePresenter(), MainContract.Presenter {
 
-    private val resultObserver = Observer<SearchResponseData> { response ->
+    private val resultObserver = Observer<PostResponseData> { response ->
         if (response == null) {
             mainView.showMessage("Error in response")
         } else {
-            mainView.displayResult(response.data)
+            mainView.displayResult(response.list)
         }
     }
 
     override fun onStart() {
-        gifsRepo.gifResults.observe(mainView.lifecycleOwner(), resultObserver)
+        gifsRepo.apiResult.observe(mainView.lifecycleOwner(), resultObserver)
     }
 
     override fun search(word: String, offset: Int, limit: Int) {
@@ -28,6 +29,6 @@ class MainPresenter @Inject internal constructor(
     }
 
     override fun onStop() {
-        gifsRepo.gifResults.removeObserver(resultObserver)
+        gifsRepo.apiResult.removeObserver(resultObserver)
     }
 }

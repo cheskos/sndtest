@@ -49,11 +49,3 @@ fun View.snackbar(@StringRes text: Int, duration: Int = Snackbar.LENGTH_SHORT): 
     val str = this.context.getString(text)
     return this.snackbar(str, duration)
 }
-
-fun Activity.snackbar(view: View, text: CharSequence, duration: Int = Snackbar.LENGTH_LONG): Snackbar {
-    return view.snackbar(text, duration)
-}
-
-fun Activity.snackbar(view: View, @StringRes text: Int, duration: Int = Snackbar.LENGTH_LONG): Snackbar {
-    return view.snackbar(text, duration)
-}

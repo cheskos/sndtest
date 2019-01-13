@@ -1,13 +1,13 @@
 package com.snd.test.ui.search
 
 import com.snd.test.base.BaseView
-import com.snd.test.model.GifData
+import com.snd.test.model.PostResponseData
 
 interface MainContract {
 
     interface View : BaseView {
-        fun displayResult(result: List<GifData>)
-        fun selected(isSelected: Boolean, item: GifData)
+        fun displayResult(result: List<PostResponseData.Post>)
+        fun selected(isSelected: Boolean, item: PostResponseData.Post)
     }
 
     interface Presenter {

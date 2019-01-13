@@ -1,6 +1,6 @@
 package com.snd.test.di
 
-import com.snd.test.http.GifsService
+import com.snd.test.http.ApiService
 import com.snd.test.http.HttpClient
 import dagger.Module
 import dagger.Provides
@@ -12,7 +12,7 @@ class ApiServiceModule {
 
     @Provides @Singleton fun provideRetrofit(): Retrofit = HttpClient.get()
 
-    @Provides @Singleton fun provideGifSearchService(retrofit: Retrofit): GifsService
-            = retrofit.create(GifsService::class.java)
+    @Provides @Singleton fun provideGifSearchService(retrofit: Retrofit): ApiService
+            = retrofit.create(ApiService::class.java)
 
 }

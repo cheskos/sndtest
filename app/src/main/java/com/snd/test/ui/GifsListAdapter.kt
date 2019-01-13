@@ -5,15 +5,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import com.bumptech.glide.Glide
+import android.widget.TextView
 import com.snd.test.R
-import com.snd.test.model.GifData
+import com.snd.test.model.PostResponseData
 import com.snd.test.ui.search.MainContract
 import kotlinx.android.synthetic.main.item_gif_list.view.*
 
 class GifsListAdapter(
-    val list: ArrayList<GifData>,
+    val list: ArrayList<PostResponseData.Post>,
     private val listener: MainContract.View?
 ) : RecyclerView.Adapter<GifsListAdapter.GifViewHolder>() {
 
@@ -37,7 +36,7 @@ class GifsListAdapter(
         holder.bind(list[position])
     }
 
-    fun append(moreItems: List<GifData>) {
+    fun append(moreItems: List<PostResponseData.Post>) {
         list.addAll(moreItems)
         notifyDataSetChanged()
     }
@@ -49,13 +48,15 @@ class GifsListAdapter(
 
     inner class GifViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        private val gifImageView: ImageView = view.gifContainer
+//        private val imageView: ImageView = view.gifContainer
+        private val tv: TextView = view.text
 
-        fun bind(item: GifData) {
-            Glide.with(view.context)
-                .asGif()
-                .load(item.images.properties.url)
-                .into(gifImageView)
+        fun bind(item: PostResponseData.Post) {
+//            Picasso.with(view.context)
+//                .load(item.id)
+//                .into(imageView)
+
+            tv.text = item.body
         }
     }
 }

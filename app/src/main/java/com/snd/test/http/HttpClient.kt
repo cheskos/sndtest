@@ -2,36 +2,35 @@ package com.snd.test.http
 
 import com.snd.test.Constants
 import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import com.snd.test.model.AlbumResponseData
+import com.snd.test.model.PostResponseData
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class HttpClient {
+object HttpClient {
+    fun get(): Retrofit {
 
-    companion object {
+        val logInterceptor = HttpLoggingInterceptor()
+        logInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
-        fun get(): Retrofit {
+        val client = OkHttpClient.Builder()
+            .addInterceptor(logInterceptor)
+            .build()
 
-            val logInterceptor = HttpLoggingInterceptor()
-            logInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        val gson = GsonBuilder()
+            .registerTypeAdapter(object : TypeToken<Array<List<PostResponseData>>>(){}.type, JsonArrayDeserializer())
+            .create()
 
-            val client = OkHttpClient.Builder()
-                    .addInterceptor(logInterceptor)
-                .build()
+        val cv = GsonConverterFactory.create(gson)
 
-            val gson = GsonBuilder()
-//                    .registerTypeAdapter(object: TypeToken<Map<String, Double>>() {}.type, CoinDeserializer())
-                .create()
-
-            val cv = GsonConverterFactory.create(gson)
-
-            return Retrofit.Builder()
-                .baseUrl(Constants.API_URL)
-                .client(client)
-                .addConverterFactory(cv)
-                .build()
-        }
+        return Retrofit.Builder()
+            .baseUrl(Constants.API_URL)
+            .client(client)
+            .addConverterFactory(cv)
+            .build()
     }
 
 }

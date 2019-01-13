@@ -1,11 +1,10 @@
 package com.snd.test.ui.result
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import com.snd.test.R
-import com.snd.test.model.GifData
-import com.snd.test.ui.search.GifsResultFragment
-import com.snd.test.ui.search.GifsResultFragment.Companion.PARAM_LIST
+import com.snd.test.model.PostResponseData
+import com.snd.test.ui.result.GifsResultFragment.Companion.PARAM_LIST
 
 class DisplayResultActivity : AppCompatActivity() {
 
@@ -13,7 +12,7 @@ class DisplayResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_display_result)
 
-        val list = intent.getParcelableArrayListExtra<GifData>(PARAM_LIST)
+        val list = intent.getParcelableArrayListExtra<PostResponseData.Post>(PARAM_LIST)
         val f = GifsResultFragment.newInstance(list)
         fragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, f)

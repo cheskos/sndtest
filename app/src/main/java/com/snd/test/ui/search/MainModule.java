@@ -2,6 +2,7 @@ package com.snd.test.ui.search;
 
 import android.app.Fragment;
 import com.snd.test.repositories.GifsRepo;
+import com.snd.test.ui.result.GifsResultFragment;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;

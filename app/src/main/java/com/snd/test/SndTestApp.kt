@@ -10,7 +10,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import javax.inject.Inject
 
-class GiphyTestApp : Application(), HasActivityInjector {
+class SndTestApp : Application(), HasActivityInjector {
 
     @Inject internal lateinit var activityInjector: DispatchingAndroidInjector<Activity>
 

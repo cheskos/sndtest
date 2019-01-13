@@ -1,10 +1,9 @@
 package com.snd.test.repositories
 
-import com.snd.test.Constants
 import com.snd.test.base.BaseApiCallback
 import com.snd.test.base.BaseRepo
-import com.snd.test.http.GifsService
-import com.snd.test.model.SearchResponseData
+import com.snd.test.http.ApiService
+import com.snd.test.model.PostResponseData
 import javax.inject.Inject
 
 interface Remote {
@@ -12,21 +11,19 @@ interface Remote {
 }
 
 class GifsRepo @Inject internal constructor(
-    private val gifService: GifsService
+    private val apiService: ApiService
 ) : BaseRepo(), Remote {
 
-    private val apiKey = Constants.API_KEY
-
     override fun search(keyword: String, offset: Int, limit: Int) {
-        gifService.search(keyword, offset, limit, apiKey)
-            .enqueue(BaseApiCallback<SearchResponseData>({ success ->
+        apiService.getAllPhotos()
+            .enqueue(BaseApiCallback<PostResponseData>({ success ->
 
-                gifResults.postValue(success)
+                apiResult.postValue(success)
 
             }, { failure ->
 
                 failure.printStackTrace()
-                gifResults.postValue(null)
+                apiResult.postValue(null)
 
             }))
     }

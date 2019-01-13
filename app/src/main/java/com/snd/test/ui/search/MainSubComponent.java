@@ -1,5 +1,6 @@
 package com.snd.test.ui.search;
 
+import com.snd.test.ui.result.GifsResultFragment;
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;
 

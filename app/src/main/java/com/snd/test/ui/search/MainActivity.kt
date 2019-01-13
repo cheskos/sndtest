@@ -10,11 +10,11 @@ import android.view.View
 import com.snd.test.R
 import com.snd.test.base.BaseActivity
 import com.snd.test.base.BasePresenter
-import com.snd.test.model.GifData
+import com.snd.test.model.PostResponseData
 import com.snd.test.onChange
 import com.snd.test.ui.GifsListAdapter
 import com.snd.test.ui.result.DisplayResultActivity
-import com.snd.test.ui.search.GifsResultFragment.Companion.PARAM_LIST
+import com.snd.test.ui.result.GifsResultFragment.Companion.PARAM_LIST
 import com.snd.test.utils.Utils
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -27,7 +27,7 @@ class MainActivity : BaseActivity(), MainContract.View, HasFragmentInjector {
     @Inject internal lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
     @Inject lateinit var presenter: MainPresenter
     private val searchAdapter = GifsListAdapter(arrayListOf(), this)
-    private val selectedGifs = arrayListOf<GifData>()
+    private val selectedItems = arrayListOf<PostResponseData.Post>()
     private val columnCount = 2
 
     override fun fragmentInjector(): AndroidInjector<Fragment> = dispatchingAndroidInjector
@@ -36,7 +36,7 @@ class MainActivity : BaseActivity(), MainContract.View, HasFragmentInjector {
 
     override fun getPresenter(): BasePresenter = presenter
 
-    override fun displayResult(result: List<GifData>) {
+    override fun displayResult(result: List<PostResponseData.Post>) {
         searchAdapter.append(result)
         showProgressBar(false)
         Utils.hideKeyboard(this)
@@ -61,19 +61,19 @@ class MainActivity : BaseActivity(), MainContract.View, HasFragmentInjector {
 
         fab.setOnClickListener {
             Intent(this, DisplayResultActivity::class.java).apply {
-                putParcelableArrayListExtra(PARAM_LIST, selectedGifs)
+                putParcelableArrayListExtra(PARAM_LIST, selectedItems)
                 startActivity(this)
             }
         }
     }
 
-    override fun selected(isSelected: Boolean, item: GifData) {
+    override fun selected(isSelected: Boolean, item: PostResponseData.Post) {
         if (isSelected) {
-            selectedGifs.add(item)
+            selectedItems.add(item)
         } else {
-            selectedGifs.remove(item)
+            selectedItems.remove(item)
         }
-        showMessage(String.format("Count: %s", selectedGifs.size))
+        showMessage(String.format("Count: %s", selectedItems.size))
     }
 
     override fun showProgressBar(show: Boolean) {

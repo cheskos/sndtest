@@ -3,12 +3,13 @@ package com.snd.test.http
 import com.snd.test.Constants
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import com.snd.test.model.AlbumResponseData
+import com.snd.test.model.CommentResponseData
 import com.snd.test.model.PostResponseData
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 object HttpClient {
     fun get(): Retrofit {
@@ -21,7 +22,8 @@ object HttpClient {
             .build()
 
         val gson = GsonBuilder()
-            .registerTypeAdapter(object : TypeToken<Array<List<PostResponseData>>>(){}.type, JsonArrayDeserializer())
+            .registerTypeAdapter(object : TypeToken<PostResponseData>(){}.type, PostResponseDataDeserializer())
+            .registerTypeAdapter(object : TypeToken<CommentResponseData>(){}.type, AnonymousArrayDeserializer())
             .create()
 
         val cv = GsonConverterFactory.create(gson)

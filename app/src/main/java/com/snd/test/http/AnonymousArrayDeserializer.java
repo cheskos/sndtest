@@ -7,26 +7,26 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class JsonArrayDeserializer implements JsonDeserializer<Collection<?>> {
+/**
+ * Convenience class that deserializes anonymous JSON arrays/lists into a typed array list
+ */
+public class AnonymousArrayDeserializer implements JsonDeserializer<Collection<?>> {
+
+    private Gson gson;
+    public AnonymousArrayDeserializer() {
+        gson = new Gson();
+    }
 
     @Override
     public Collection<?> deserialize(JsonElement json, Type typeOfT,
                                      JsonDeserializationContext context) throws JsonParseException {
         Type realType = ((ParameterizedType)typeOfT).getActualTypeArguments()[0];
-
         return parseAsArrayList(json, realType);
     }
 
-    /**
-     * @param json
-     * @param type
-     * @return
-     */
     @SuppressWarnings("unchecked")
-    public <T> ArrayList<T> parseAsArrayList(JsonElement json, T type) {
+    private <T> ArrayList<T> parseAsArrayList(JsonElement json, T type) {
         ArrayList<T> newArray = new ArrayList<>();
-        Gson gson = new Gson();
-
         JsonArray array= json.getAsJsonArray();
 
         for (JsonElement element : array) {

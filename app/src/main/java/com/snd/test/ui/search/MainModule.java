@@ -1,7 +1,7 @@
 package com.snd.test.ui.search;
 
 import android.app.Fragment;
-import com.snd.test.repositories.GifsRepo;
+import com.snd.test.repositories.MainRepository;
 import com.snd.test.ui.result.GifsResultFragment;
 import dagger.Binds;
 import dagger.Module;
@@ -21,7 +21,7 @@ public abstract class MainModule {
         return activity;
     }
 
-    @Provides @NotNull static MainPresenter provideMainPresenter(GifsRepo repo, MainContract.View view) {
+    @Provides @NotNull static MainPresenter provideMainPresenter(MainRepository repo, MainContract.View view) {
         return new MainPresenter(repo, view);
     }
 }

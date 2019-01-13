@@ -1,7 +1,7 @@
 package com.snd.test.di
 
 import com.snd.test.http.ApiService
-import com.snd.test.repositories.GifsRepo
+import com.snd.test.repositories.MainRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -11,6 +11,6 @@ class ReposModule {
 
     @Provides @Singleton fun provideGifsRepo(
         apiService: ApiService
-    ): GifsRepo = GifsRepo(apiService)
+    ): MainRepository = MainRepository(apiService)
 
 }

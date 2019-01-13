@@ -11,6 +11,7 @@ interface MainContract {
     }
 
     interface Presenter {
-        fun search(word: String, offset: Int, limit: Int)
+        fun getPosts()
+        fun getCommentsForPost(id: Int)
     }
 }

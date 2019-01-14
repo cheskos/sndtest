@@ -22,8 +22,8 @@ object HttpClient {
             .build()
 
         val gson = GsonBuilder()
-            .registerTypeAdapter(object : TypeToken<PostResponseData>(){}.type, PostResponseDataDeserializer())
             .registerTypeAdapter(object : TypeToken<CommentResponseData>(){}.type, AnonymousArrayDeserializer())
+            .registerTypeAdapter(object : TypeToken<PostResponseData>(){}.type, AnonymousArrayDeserializer())
             .create()
 
         val cv = GsonConverterFactory.create(gson)
